@@ -3,8 +3,13 @@
 Windows 绿色单文件壁纸轮换工具：按权重随机更换壁纸（新图权重高、老图保底），
 由 Windows 计划任务定时执行，设置界面直接用系统默认浏览器打开，无需安装任何运行时。
 
+**多屏同图轮换**：多显示器环境下，每块屏幕都显示同一张壁纸（各自按自身分辨率填充），
+可整组替代 Windows 自带的「幻灯片放映」桌面背景任务。
+
 ## 功能
 
+- **多屏同图轮换（替代 Windows 幻灯片）**：多显示器时每块屏铺同一张图、同步轮换；
+  相比 Windows 自带幻灯片，支持加权随机、按分辨率/大小筛选、静默后台运行
 - **加权随机轮换**：半衰期模型——越新的图权重越高，老图有保底权重，换壁纸不重复也不腻
 - **定时自动执行**：注册 Windows 计划任务（默认每 6 小时），静默运行无窗口
 - **浏览器设置界面**：双击 EXE 即在系统默认浏览器打开本地设置页（127.0.0.1），保存/轮换/任务管理都在页面上完成
@@ -57,7 +62,9 @@ pyinstaller --onefile --windowed --name WallpaperRotate \
 
 ## 实现要点
 
-- 换壁纸：`SystemParametersInfoW(SPI_SETDESKWALLPAPER)` + 注册表 `WallpaperStyle=10`（填充）
+- 换壁纸：`SystemParametersInfoW(SPI_SETDESKWALLPAPER)` + 注册表 `WallpaperStyle=10`（填充）。
+  该填充样式会让 Windows 在**每一块显示器上各自按分辨率铺同一张图**，因此天然实现多屏同图轮换；
+  若想改成「一张图跨屏拉伸成全景」，把样式改成 `22`（Span）即可
 - 图片尺寸：直接解析 PNG/JPEG 文件头，不加载整图，扫描快
 - 计划任务：`schtasks.exe`，失败回退 PowerShell `Register-ScheduledTask`（仅以当前用户身份运行，不需要管理员权限）
 - 设置界面：`http.server.ThreadingHTTPServer` 监听 127.0.0.1:18106（占用则回退随机端口），纯标准库

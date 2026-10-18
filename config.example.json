@@ -1,0 +1,9 @@
+{
+  "folders": [],
+  "interval_hours": 6,
+  "half_life_days": 7,
+  "min_weight": 0.05,
+  "min_size_mb": 1,
+  "min_width": 1920,
+  "min_height": 1080
+}

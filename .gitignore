@@ -1,0 +1,19 @@
+# 本机配置与运行时产物，不入库
+config.json
+rotate.log
+
+# Python
+__pycache__/
+*.py[cod]
+
+# PyInstaller
+.build/
+dist/
+*.spec
+
+# 构建产物（通过 Releases 分发）
+WallpaperRotate.exe
+
+# 编辑器
+.vscode/
+.idea/
